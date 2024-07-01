@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/UneCont-Financial/obj
+/UneCont-Financial/bin/Debug/net8.0
+/UneCont-Financial/.vs/UneCont-Financial
+/.vs/UneContFinancial/v17
+/UneContFinancial/.vs/UneContFinancial
+/UneContFinancial/bin/Debug/net8.0
+/UneContFinancial/obj
