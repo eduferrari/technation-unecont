@@ -1,0 +1,104 @@
+﻿@page
+@using UneContFinancial.Models
+@model UneContFinancial.Pages.Notas.EditModel
+
+@{
+    ViewData["Title"] = "Notas";
+}
+
+<h4>Alterar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Nota.Id" />
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.NomePagador" class="control-label"></label>
+                        <input asp-for="Nota.NomePagador" class="form-control" />
+                        <span asp-validation-for="Nota.NomePagador" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.NumeroIdentificacao" class="control-label"></label>
+                        <input asp-for="Nota.NumeroIdentificacao" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.Valor" class="control-label"></label>
+                        <input asp-for="Nota.Valor" class="form-control" />
+                        <span asp-validation-for="Nota.Valor" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.DataEmissaoNota" class="control-label"></label>
+                        <input asp-for="Nota.DataEmissaoNota" class="form-control" />
+                        <span asp-validation-for="Nota.DataEmissaoNota" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.DataCobranca" class="control-label"></label>
+                        <input asp-for="Nota.DataCobranca" class="form-control" />
+                        <span asp-validation-for="Nota.DataCobranca" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.DataPagamento" class="control-label"></label>
+                        <input asp-for="Nota.DataPagamento" class="form-control" />
+                        <span asp-validation-for="Nota.DataPagamento" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.NotaFiscal" class="control-label"></label>
+                        <input type="file" id="NotaFiscal" name="NotaFiscal" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.BoletoBancario" class="control-label"></label>
+                        <input type="file" id="BoletoBancario" name="BoletoBancario" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group mt-2">
+                        <label asp-for="Nota.Status" class="control-label"></label>
+                        <select asp-for="Nota.Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusNota>()">
+                            <option value="">Selecione o status</option>
+                        </select>
+                        <span asp-validation-for="Nota.Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                <a asp-page="./Index" class="btn btn-secondary">Voltar</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,131 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row">
+    <h4>Indicadores - Valores totais</h4>
+
+    <div class="row row-cols-1 row-cols-md-5 mb-3 mt-5 text-center">
+        <div class="col">
+            <div class="card mb-4 rounded-2 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Notas Emitidas</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">@Model.TotalNotasEmitidas.ToString("C")</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-2 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Notas sem Cobrança</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">@Model.TotalNotasSemCobranca.ToString("C")</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-2 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Notas Vencidas</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">@Model.TotalNotasVencidas.ToString("C")</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-2 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Notas a Vencer</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">@Model.TotalNotasAVencer.ToString("C")</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-2">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Notas Pagas</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">@Model.TotalNotasPagas.ToString("C")</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <h4>Gráficos</h4>
+
+    <div class="row mb-3 mt-5">
+        <div class="col-12">
+            <h2>Evolução da Inadimplência</h2>
+
+            <canvas id="inadimplenciaChart" width="500" height="200"></canvas>
+        </div>
+
+        <div class="col-12 mt-5">
+            <h2>Evolução da Receita</h2>
+
+            <canvas id="receitaChart" width="500" height="200"></canvas>
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('inadimplenciaChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.MesesInadimplencia)),
+                datasets: [{
+                    label: 'Inadimplência',
+                    data: @Html.Raw(Json.Serialize(Model.InadimplenciaMensal)),
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var ctx = document.getElementById('receitaChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.MesesReceita)),
+                datasets: [{
+                    label: 'Receita',
+                    data: @Html.Raw(Json.Serialize(Model.ReceitaMensal)),
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

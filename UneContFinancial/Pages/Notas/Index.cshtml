@@ -1,0 +1,100 @@
+﻿@page
+@using UneContFinancial.Models
+@model UneContFinancial.Pages.Notas.IndexModel
+
+@{
+    ViewData["Title"] = "Lista de Notas";
+}
+
+<div class="row">
+    <p>
+        <a asp-page="Create" class="btn btn-secondary" title="Adicionar Nota">Adicionar Nota</a>
+    </p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nota[0].NumeroIdentificacao)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nota[0].NomePagador)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nota[0].DataEmissaoNota)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nota[0].DataCobranca)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nota[0].DataPagamento)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nota[0].Valor)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nota[0].Status)
+                </th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Nota)
+            {
+                var inadimplente = string.Empty;
+
+                @if (@item.Status == StatusNota.PagamentoEmAtraso) inadimplente = @" class=table-danger";
+
+                <tr @inadimplente>
+                    <th scope="row">@item.NumeroIdentificacao</th>
+                    <td>@item.NomePagador</td>
+                    <td>
+                        @if (@item.DataEmissaoNota != null)
+                            @item.DataEmissaoNota?.ToShortDateString()
+
+                    </td>
+                    <td>
+                        @if (@item.DataCobranca != null)
+                            @item.DataCobranca?.ToShortDateString()
+
+                    </td>
+                    <td>
+                        @if (@item.DataPagamento != null)
+                            @item.DataPagamento?.ToShortDateString()
+
+                    </td>
+                    <td>@item.Valor.ToString("C")</td>
+                    <td>@item.Status</td>
+                    <td class="align-middle">
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-sm btn-primary p-2" title="Editar"><i class="bi bi-arrow-repeat"></i></a>
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn-sm btn-secondary p-2" title="Visualizar"><i class="bi bi-box-arrow-up-right"></i></a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn-sm btn-danger p-2" title="Deletar"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <ul class="pagination justify-content-end">
+        @if (Model.Nota.HasPreviousPage)
+        {
+            <li class="page-item"><a asp-page="./Index" asp-route-pageIndex="@(Model.Nota.PageIndex - 1)" class="page-link">Anterior</a></li>
+        }
+        else
+        {
+            <li class="page-item disabled"><a class="page-link">Anterior</a></li>
+        }
+
+        @if (Model.Nota.HasNextPage)
+        {
+            <li class="page-item"><a asp-page="./Index" asp-route-pageIndex="@(Model.Nota.PageIndex + 1)" class="page-link">Próximo</a></li>
+        }
+        else
+        {
+            <li class="page-item disabled"><a class="page-link">Próximo</a></li>
+        }
+    </ul>
+
+</div>
+
+
