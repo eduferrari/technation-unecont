@@ -14,12 +14,12 @@ public class NotaService
 
     internal static bool ValidaSeNotaFiscalFoiSelecionado(IFormFile notaFiscal)
     {
-        return notaFiscal.Length > 0;
+        return notaFiscal == null ? false : true;
     }
 
     internal static bool ValidaSeBoletolFoiSelecionado(IFormFile boletoBancario)
     {
-        return boletoBancario.Length > 0;
+        return boletoBancario == null ? false : true;
     }
 
     internal static string SalvarNotaFiscal(IFormFile NotaFiscal)
@@ -30,8 +30,8 @@ public class NotaService
 
         string fileName = UploadService.MakeUniqueFilename(folderPath, NotaFiscal.FileName);
 
-        var avatarPath = Path.Combine(folderPath, fileName);
-        using var stream = new FileStream(folderPath, FileMode.Create);
+        var pathNotaFiscal = Path.Combine(folderPath, fileName);
+        using var stream = new FileStream(pathNotaFiscal, FileMode.Create);
         NotaFiscal.CopyTo(stream);
 
         return fileName;
@@ -45,8 +45,8 @@ public class NotaService
 
         string fileName = UploadService.MakeUniqueFilename(folderPath, BoletoBancario.FileName);
 
-        var avatarPath = Path.Combine(folderPath, fileName);
-        using var stream = new FileStream(folderPath, FileMode.Create);
+        var pathBoleto = Path.Combine(folderPath, fileName);
+        using var stream = new FileStream(pathBoleto, FileMode.Create);
         BoletoBancario.CopyTo(stream);
 
         return fileName;

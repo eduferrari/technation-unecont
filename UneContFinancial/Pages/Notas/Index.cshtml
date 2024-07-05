@@ -5,12 +5,52 @@
 @{
     ViewData["Title"] = "Lista de Notas";
 }
+<form method="get">
+    <div class="row">
+        <div class="col-auto">
+            <div class="form-group mb-3">
+                <select id="TipoFiltro" name="TipoFiltro" class="custom-select">
+                    <option>Filtrar por:</option>
+                    <option value="1" @(Model.TipoFiltro == 1 ? "selected" : "")>Mês de emissão da nota</option>
+                    <option value="2" @(Model.TipoFiltro == 2 ? "selected" : "")>Mês que a cobrança foi realizada</option>
+                    <option value="3" @(Model.TipoFiltro == 3 ? "selected" : "")>Mês que o pagamento foi realizado</option>
+                    <option value="4" @(Model.TipoFiltro == 4 ? "selected" : "")>Status da nota</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="form-group mb-3">
 
-<div class="row">
-    <p>
-        <a asp-page="Create" class="btn btn-secondary" title="Adicionar Nota">Adicionar Nota</a>
-    </p>
+                <div id="filtroMes" style="display: none;">
+                    <input type="month" id="FiltroMes" name="FiltroMes" value="@Model.FiltroMes" class="form-control" placeholder="Informe o Mês" />
+                </div>
 
+                <div id="filtroStatus" style="display: none;">
+                    <select id="FiltroStatus" name="FiltroStatus" class="custom-select">
+                        <option value="">Selecione o status</option>
+                        <option value="@StatusNota.Emitida" @(Model.FiltroStatus == StatusNota.Emitida ? "selected" : "")>Emitida</option>
+                        <option value="@StatusNota.CobrancaRealizada" @(Model.FiltroStatus == StatusNota.CobrancaRealizada ? "selected" : "")>Cobrança Realizada</option>
+                        <option value="@StatusNota.PagamentoEmAtraso" @(Model.FiltroStatus == StatusNota.PagamentoEmAtraso ? "selected" : "")>Pagamento em Atraso</option>
+                        <option value="@StatusNota.PagamentoRealizado" @(Model.FiltroStatus == StatusNota.PagamentoRealizado ? "selected" : "")>Pagamento Realizado</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-secondary">Filtrar</button>
+            </div>
+        </div>
+        <div class="col-auto float-end">
+            <div class="form-group mb-3">
+                <a asp-page="Create" class="btn btn-primary float-end" title="Adicionar Nota">Adicionar Nota</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row mt-2">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -51,17 +91,14 @@
                     <td>
                         @if (@item.DataEmissaoNota != null)
                             @item.DataEmissaoNota?.ToShortDateString()
-
                     </td>
                     <td>
                         @if (@item.DataCobranca != null)
                             @item.DataCobranca?.ToShortDateString()
-
                     </td>
                     <td>
                         @if (@item.DataPagamento != null)
                             @item.DataPagamento?.ToShortDateString()
-
                     </td>
                     <td>@item.Valor.ToString("C")</td>
                     <td>@item.Status</td>
@@ -78,7 +115,14 @@
     <ul class="pagination justify-content-end">
         @if (Model.Nota.HasPreviousPage)
         {
-            <li class="page-item"><a asp-page="./Index" asp-route-pageIndex="@(Model.Nota.PageIndex - 1)" class="page-link">Anterior</a></li>
+            <li class="page-item">
+                <a asp-page="./Index" 
+                    asp-route-pageIndex="@(Model.Nota.PageIndex - 1)"
+                    asp-route-tipoFiltro="@(Model.TipoFiltro)"
+                    asp-route-filtroMes="@(Model.FiltroMes)"
+                    asp-route-filtroStatus="@(Model.FiltroStatus)"
+                    class="page-link">Anterior</a>
+            </li>
         }
         else
         {
@@ -87,7 +131,13 @@
 
         @if (Model.Nota.HasNextPage)
         {
-            <li class="page-item"><a asp-page="./Index" asp-route-pageIndex="@(Model.Nota.PageIndex + 1)" class="page-link">Próximo</a></li>
+            <li class="page-item">
+                <a asp-page="./Index" 
+                    asp-route-pageIndex="@(Model.Nota.PageIndex + 1)"
+                   asp-route-tipoFiltro="@(Model.TipoFiltro)"
+                   asp-route-filtroMes="@(Model.FiltroMes)"
+                   asp-route-filtroStatus="@(Model.FiltroStatus)"
+                class="page-link">Próximo</a></li>
         }
         else
         {
