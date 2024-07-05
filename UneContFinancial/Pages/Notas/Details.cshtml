@@ -1,0 +1,57 @@
+﻿@page
+@model UneContFinancial.Pages.Notas.DetailsModel
+
+@{
+    ViewData["Title"] = "Notas";
+}
+
+<h4>Visualizar</h4>
+<hr />
+<div>
+    <dl class="row">
+
+        <dt class="col-sm-2">Nome do Pagador</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nota.NomePagador)
+        </dd>
+        <dt class="col-sm-2">Numero de Identifica</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nota.NumeroIdentificacao)
+        </dd>
+        <dt class="col-sm-2">Valor</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nota.Valor)
+        </dd>
+
+        <dt class="col-sm-2">Data da Emissao</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nota.DataEmissaoNota)
+        </dd>
+        <dt class="col-sm-2">Data da Cobrança</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nota.DataCobranca)
+        </dd>
+        <dt class="col-sm-2">Data do Pagamento</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nota.DataPagamento)
+        </dd>
+
+        <dt class="col-sm-2">Nota Fiscal</dt>
+        <dd class="col-sm-10">
+            <a href="~/uploads/notas/@Html.DisplayFor(model => model.Nota.NotaFiscal)" target="_blank" title="Baixar Arquivo (@Html.DisplayFor(model => model.Nota.NotaFiscal))">@Html.DisplayFor(model => model.Nota.NotaFiscal)</a>
+        </dd>
+        <dt class="col-sm-2">Boleto Bancario</dt>
+        <dd class="col-sm-10">
+            <a href="~/uploads/notas/@Html.DisplayFor(model => model.Nota.BoletoBancario)" target="_blank" title="Baixar Arquivo (@Html.DisplayFor(model => model.Nota.BoletoBancario))">@Html.DisplayFor(model => model.Nota.BoletoBancario)</a>
+        </dd>
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nota.Status)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Nota.Id" class="btn btn-primary">Alterar</a>
+    <a asp-page="./Index" class="btn btn-secondary">Voltar</a>
+</div>
